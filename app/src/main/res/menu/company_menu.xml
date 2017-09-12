@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/ic_store_mall_directory_black_24dp"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/registration"
+        android:icon="@drawable/ic_add_location_black_24dp"
+        android:title="register" />
+
+    <item
+        android:id="@+id/company_account"
+        android:icon="@drawable/ic_group_black_24dp"
+        android:title="Company" />
+
+    <item
+        android:id="@+id/notification"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="Notification" />
+
+
+</menu>

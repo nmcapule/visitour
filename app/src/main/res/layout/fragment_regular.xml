@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.visitour.User_Info.Regular">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="188dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/txtlastname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Lastname"
+            android:layout_margin="5dp"
+            android:background="@drawable/edittext_boder"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txtmiddlename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/edittext_boder"
+            android:ems="10"
+            android:hint="Middlename"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txtfname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/edittext_boder"
+            android:ems="10"
+            android:hint="Firstname"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnsubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+    </LinearLayout>
+</FrameLayout>

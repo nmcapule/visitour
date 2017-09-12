@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/one"
+        android:title="View map"
+        />
+    <item
+        android:id="@+id/two"
+        android:title="sample" />
+    <item
+        android:id="@+id/three"
+        android:title="sample" />
+
+</menu>

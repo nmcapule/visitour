@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Visitour</string>
+    <string name="action_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="login_success">login success</string>
+    <string name="login">LOGIN</string>
+    <string name="Username">Email</string>
+    <string name="Password">Password</string>
+    <string name="forgot_your_password">Forgot your password ?</string>
+    <string name="go">LOGIN</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="next">NEXT</string>
+    <string name="register">REGISTER</string>
+
+    <string name="hint_username">Enter a new username</string>
+    <string name="hint_email_reset">Enter your email</string>
+    <string name="enter_group_name">Enter group name</string>
+
+
+    <array name="user">
+        <item>Regular</item>
+        <item>Company</item>
+
+    </array>
+
+    <array name="establishment">
+        <item>Hotel</item>
+        <item>Restaurant</item>
+        <item>Mall</item>
+    </array>
+
+    <array name="provine">
+        <item>Cavite</item>
+        <item>Cavite City</item>
+    </array>
+
+    <array name="city">
+        <item>Dasmarinas City</item>
+        <item>Imus</item>
+    </array>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_company_main">CompanyMainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
