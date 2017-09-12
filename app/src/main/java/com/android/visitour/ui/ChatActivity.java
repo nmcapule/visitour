@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,6 +98,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().setTitle(nameFriend);
             Toast.makeText(this,nameFriend,Toast.LENGTH_LONG).show();
             linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            linearLayoutManager.setReverseLayout(false);
+            linearLayoutManager.setStackFromEnd(true);
             recyclerChat = (RecyclerView) findViewById(R.id.recyclerChat);
             recyclerChat.setLayoutManager(linearLayoutManager);
             adapter = new ListMessageAdapter(this, consersation, bitmapAvataFriend, bitmapAvataUser);
@@ -104,6 +107,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     if (dataSnapshot.getValue() != null) {
+                        Log.d("SIONAI", dataSnapshot.getValue().toString());
                         HashMap mapMessage = (HashMap) dataSnapshot.getValue();
                         Message newMessage = new Message();
                         newMessage.idSender = (String) mapMessage.get("idSender");
