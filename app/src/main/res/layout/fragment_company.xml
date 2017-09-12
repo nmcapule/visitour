@@ -9,33 +9,47 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="188dp"
-        android:orientation="vertical">
+        android:background="@drawable/round1"
+        android:orientation="vertical"
+        android:padding="15dp">
 
         <EditText
             android:id="@+id/txtcomname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/edittext_boder"
             android:ems="10"
             android:hint="Company name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:padding="5dp" />
 
         <EditText
             android:id="@+id/txtcomowner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/edittext_boder"
             android:ems="10"
             android:hint="Company owner"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:padding="5dp" />
 
         <Button
             android:id="@+id/btnsubmitc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/transparent"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </FrameLayout>

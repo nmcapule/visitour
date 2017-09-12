@@ -8,34 +8,32 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView3"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
         android:src="@drawable/default_avata" />
 
     <TextView
         android:id="@+id/textContentFriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@id/imageView3"
+        android:layout_marginStart="14dp"
         android:background="@drawable/rounded_corner2"
         android:padding="10dp"
         android:text="A"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:layout_below="@+id/TXTNAME"
+        android:layout_toEndOf="@+id/imageView3" />
 
     <TextView
         android:id="@+id/TXTNAME"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TextView"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/imageView3"
-        android:text="TextView" />
+        android:layout_alignStart="@+id/textContentFriend" />
 
 </RelativeLayout>

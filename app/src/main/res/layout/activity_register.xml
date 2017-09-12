@@ -8,8 +8,20 @@
     <FrameLayout
         android:layout_width="320dp"
         android:layout_height="400dp"
-        android:layout_centerInParent="true"
-        android:paddingTop="30dp">
+        android:paddingTop="30dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:onClick="clickBackLogin"
+            android:src="@drawable/plus_x"
+            android:transitionName="loginFab"
+            app:backgroundTint="@android:color/white"
+            app:fabSize="normal" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/cv_add"
@@ -25,6 +37,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#03A9F4"
                 android:orientation="vertical">
 
                 <TextView
@@ -127,23 +140,15 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/bt_shape_2"
+                    android:onClick="clickRegister"
                     android:stateListAnimator="@drawable/state_list_animator_z"
                     android:text="@string/go"
-                    android:textColor="#2fa881"
-                    android:onClick="clickRegister"/>
+                    android:textColor="#03A9F4"
+                    android:textSize="18sp"
+                    tools:text="REGISTER" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            android:onClick="clickBackLogin"
-            android:src="@drawable/plus_x"
-            android:transitionName="loginFab"
-            app:fabSize="normal" />
     </FrameLayout>
 
 

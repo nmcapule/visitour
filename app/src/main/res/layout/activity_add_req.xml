@@ -6,23 +6,45 @@
     android:layout_height="match_parent"
     tools:context="com.android.visitour.Function.AddReqActivity">
 
-    <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="208dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/btnupload"
+        android:layout_width="103dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:id="@+id/linearLayout">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="425dp"
+        android:background="@drawable/round3"
+        android:onClick="btnupload"
+        android:text="Upload"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="368dp"
+        android:layout_height="187dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.003"
+        tools:layout_editor_absoluteX="8dp">
 
         <TextView
             android:id="@+id/txttype"
@@ -74,35 +96,21 @@
 
         <Button
             android:id="@+id/btnview"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="210dp"
+            android:onClick="viewImage"
+            android:padding="5dp"
+            android:paddingBottom="6dp"
             android:text="View requirements"
-            android:onClick="viewImage"/>
+            android:textColor="#25aae1" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnupload"
-        android:layout_width="103dp"
-        android:layout_height="49dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="425dp"
-        android:onClick="btnupload"
-        android:text="Upload"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="178dp"
+        android:layout_width="366dp"
+        android:layout_height="255dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
@@ -111,32 +119,39 @@
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.82">
+        app:layout_constraintVertical_bias="0.82"
+        tools:layout_editor_absoluteY="205dp"
+        tools:layout_editor_absoluteX="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#25AAE1"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnchoose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="btnchoose_Click"
-                android:text="Choose" />
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/image"
+                android:onClick="btnchoose_Click" />
 
             <EditText
                 android:id="@+id/txtimgname"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:background="@drawable/whiteround"
                 android:ems="10"
                 android:hint="Image name:"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:padding="8dp" />
 
         </LinearLayout>
 
@@ -144,6 +159,7 @@
             android:id="@+id/imgview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/grey_200"
             app:srcCompat="@drawable/bb_bottom_bar_top_shadow" />
 
     </LinearLayout>

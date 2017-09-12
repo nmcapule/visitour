@@ -20,14 +20,17 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="EVENT" />
+            android:text="EVENT"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btnshow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="240dp"
-            android:text="Button" />
+            android:background="@color/transparent"
+            android:text="CLOSE"
+            android:textColor="@android:color/white" />
 
     </android.support.v7.widget.Toolbar>
 

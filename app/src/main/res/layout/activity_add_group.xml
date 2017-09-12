@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +10,7 @@
         android:id="@+id/btnAddGroup"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/grey_500"
+        android:background="#03A9F4"
         android:gravity="center|right"
         android:orientation="horizontal"
         android:paddingRight="20dp">
@@ -18,7 +19,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="7dp"
-            android:src="@drawable/ic_accept_cr_group" />
+            android:src="@drawable/ic_accept_cr_group"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/txtActionName"
@@ -33,20 +35,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingEnd="20dp"
-        android:paddingStart="20dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:paddingStart="20dp">
 
         <TextView
             android:id="@+id/icon_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_textview"
+            android:layout_width="65dp"
+            android:layout_height="61dp"
+            android:background="@drawable/group"
             android:gravity="center"
-            android:text="R"
             android:textColor="@android:color/white"
             android:textSize="30sp" />
 
@@ -60,16 +62,19 @@
             android:paddingBottom="20dp"
             android:paddingLeft="20dp" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleListFriend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp" />
+
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey_200" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleListFriend"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        />
+
 </LinearLayout>
