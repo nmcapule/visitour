@@ -18,7 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -99,13 +102,46 @@ class ListReservationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_simple_text, parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.rc_item_reservation, parent);
         return new ItemHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ItemHolder) holder).txtTitle.setText(reservationArray.get(position).idGroup);
+        Reservation reservation = reservationArray.get(position);
+        ((ItemHolder) holder).txtTitle.setText(reservation.guestName);
+
+        String status = "Pending";
+        if (reservation.approved) {
+            status = "Approved";
+        }
+        ((ItemHolder) holder).txtStatus.setText(status);
+
+        String arrivalStr = "NA";
+        String departureStr = "NA";
+
+        if (reservation.arrival != 0) {
+            Date arrival = new java.util.Date((long) reservation.arrival*1000);
+
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            arrivalStr = formatter.format(arrival);
+        }
+
+        if (reservation.departure != 0) {
+            Date departure = new java.util.Date((long) reservation.departure*1000);
+
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            departureStr = formatter.format(departure);
+        }
+
+        String summary = "No summary available";
+        if (reservation.type == Reservation.RESERVATION_TYPE_HOTEL) {
+            summary = "" + reservation.guests + "pax. Start: " + arrivalStr + ". End: " + departureStr;
+        }
+        if (reservation.type == Reservation.RESERVATION_TYPE_RESTAURANT) {
+            summary = "" + reservation.guests + "pax. Start: " + arrivalStr + ". End: " + departureStr;
+        }
+        ((ItemHolder) holder).txtSummary.setText(summary);
     }
 
     @Override
@@ -116,9 +152,13 @@ class ListReservationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 class ItemHolder extends RecyclerView.ViewHolder {
     public TextView txtTitle;
+    public TextView txtSummary;
+    public TextView txtStatus;
 
     public ItemHolder(View itemView) {
         super(itemView);
-        txtTitle = (TextView) itemView.findViewById(R.id.text1);
+        txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+        txtStatus = (TextView) itemView.findViewById(R.id.txtStatus);
+        txtSummary = (TextView) itemView.findViewById(R.id.txtSummary);
     }
 }

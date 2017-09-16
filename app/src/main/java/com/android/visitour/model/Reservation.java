@@ -11,6 +11,8 @@ public class Reservation {
 
     public String idGroup;
     public String idCompany;
+    public String guestName;
+    public String companyName;
     public int guests;
     public int type;
     public long arrival;
