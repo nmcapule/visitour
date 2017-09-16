@@ -55,14 +55,20 @@ public class ListReservationsActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue() != null) {
                     HashMap mapReservation = (HashMap) dataSnapshot.getValue();
                     Reservation reservation = new Reservation(idGroup, idCompany);
+                    reservation.guestName = (String) mapReservation.get("guestName");
+                    reservation.companyName = (String) mapReservation.get("companyName");
+                    reservation.idGroup = (String) mapReservation.get("idGroup");
+                    reservation.idCompany = (String) mapReservation.get("idCompany");
                     reservation.arrival = (long) mapReservation.get("arrival");
                     reservation.departure = (long) mapReservation.get("departure");
                     reservation.approved = (boolean) mapReservation.get("approved");
                     reservation.guests = (int) mapReservation.get("guests");
                     reservation.type = (int) mapReservation.get("type");
 
-                    reservationArray.add(reservation);
-                    adapter.notifyDataSetChanged();
+                    if (reservation.idCompany == idCompany && reservation.idGroup == idGroup) {
+                        reservationArray.add(reservation);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
 
