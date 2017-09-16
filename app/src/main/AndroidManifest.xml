@@ -67,6 +67,7 @@
         <activity android:name=".Function.AddReqActivity" />
         <activity android:name=".Company.ViewImageActivity"></activity>
         <activity android:name=".Map.MapsActivity"></activity>
+        <activity android:name=".Reservation.ReservationActivity"></activity>
         <activity android:name=".BasicInfo" android:theme="@style/AppTheme.pop"></activity>
         <activity android:name=".SelectGroup" android:theme="@style/AppTheme.pop"></activity>
         <activity android:name=".inquiry.inquiry"></activity>
