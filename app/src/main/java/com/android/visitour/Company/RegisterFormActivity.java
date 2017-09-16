@@ -110,18 +110,11 @@ public class RegisterFormActivity extends AppCompatActivity implements View.OnCl
 
         if(!TextUtils.isEmpty(type) && !TextUtils.isEmpty(esname) && !TextUtils.isEmpty(esowner) && !TextUtils.isEmpty(eslat)&& !TextUtils.isEmpty(add) && !TextUtils.isEmpty(phone)  )
         {
-
-//
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Database_path);
 
             EstablishmentRegister establishmentRegister = new EstablishmentRegister(type,esname,esowner,add,eslat,postal,user.getEmail(),phone,uploadid);
             databaseReference.child(uploaduid).child(uploadid).setValue(establishmentRegister);
             databaseReference.child("admin").child(uploadid).setValue(establishmentRegister);
-
-            Toast.makeText(this,"Pasok", Toast.LENGTH_LONG).show();
-
-
-
         }
         else
         {

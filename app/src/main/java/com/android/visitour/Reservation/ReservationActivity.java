@@ -11,6 +11,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.android.visitour.R;
+import com.android.visitour.model.Reservation;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
@@ -55,5 +58,12 @@ public class ReservationActivity extends AppCompatActivity {
                 mDisplayDate.setText(date);
             }
         };
+    }
+
+    public void saveReservation(String idGroup, String idCompany) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("reservations");
+        String id = databaseReference.push().getKey();
+        Reservation reservation = new Reservation(idGroup, idCompany, 0, 0, false);
+        databaseReference.child(id).setValue(reservation);
     }
 }
