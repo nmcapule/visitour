@@ -107,7 +107,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     if (dataSnapshot.getValue() != null) {
-                        Log.d("SIONAI", dataSnapshot.getValue().toString());
                         HashMap mapMessage = (HashMap) dataSnapshot.getValue();
                         Message newMessage = new Message();
                         newMessage.idSender = (String) mapMessage.get("idSender");

@@ -61,9 +61,9 @@ public class ReservationActivity extends AppCompatActivity {
     }
 
     public void saveReservation(String idGroup, String idCompany) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("reservations");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("reservations/" + idCompany);
         String id = databaseReference.push().getKey();
-        Reservation reservation = new Reservation(idGroup, idCompany, 0, 0, false);
+        Reservation reservation = new Reservation(idGroup, idCompany);
         databaseReference.child(id).setValue(reservation);
     }
 }
