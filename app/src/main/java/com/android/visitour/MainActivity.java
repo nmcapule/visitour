@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Intent intent=new Intent(this, MapsActivity.class);
             intent.putExtra("set","");
+            intent.putExtra("lat","1,0");
             startActivity(intent);
             return true;
         }

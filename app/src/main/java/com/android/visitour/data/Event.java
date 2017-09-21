@@ -16,5 +16,6 @@ public class Event
     public  String location;
     public  String alert;
     public  String groupname;
+    public  String longlat;
 
 }

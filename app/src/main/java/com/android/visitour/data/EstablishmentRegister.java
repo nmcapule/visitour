@@ -71,4 +71,40 @@ public class EstablishmentRegister
     public String getEstablishment_id() {
         return establishment_id;
     }
+
+    public void setEstablishment_type(String establishment_type) {
+        this.establishment_type = establishment_type;
+    }
+
+    public void setEstablishment_Name(String establishment_Name) {
+        this.establishment_Name = establishment_Name;
+    }
+
+    public void setEstablishment_owner(String establishment_owner) {
+        this.establishment_owner = establishment_owner;
+    }
+
+    public void setEstablishment_add(String establishment_add) {
+        this.establishment_add = establishment_add;
+    }
+
+    public void setEstablishment_lat(String establishment_lat) {
+        this.establishment_lat = establishment_lat;
+    }
+
+    public void setEstablishment_postal(String establishment_postal) {
+        this.establishment_postal = establishment_postal;
+    }
+
+    public void setEstablishment_email(String establishment_email) {
+        this.establishment_email = establishment_email;
+    }
+
+    public void setEstablishment_phone(String establishment_phone) {
+        this.establishment_phone = establishment_phone;
+    }
+
+    public void setEstablishment_id(String establishment_id) {
+        this.establishment_id = establishment_id;
+    }
 }

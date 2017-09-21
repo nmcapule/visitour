@@ -13,6 +13,7 @@ public class StaticConfig
     public static String STR_EXTRA_LASTNAME = "lastname";
     public static String STR_EXTRA_MIDDLENAME = "middlename";
     public static String STR_EXTRA_FIRSTNAME = "firstname";
+
     public static String STR_DEFAULT_BASE64 = "default";
     public static String STR_FULL_NAME = STR_EXTRA_FIRSTNAME+" "+STR_EXTRA_MIDDLENAME+" "+STR_EXTRA_LASTNAME;
 

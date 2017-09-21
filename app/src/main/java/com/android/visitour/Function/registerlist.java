@@ -1,4 +1,4 @@
-package com.android.visitour.data;
+package com.android.visitour.Function;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.visitour.Function.AddReqActivity;
+import com.android.visitour.Map.MapsActivity;
 import com.android.visitour.R;
+import com.android.visitour.data.EstablishmentRegister;
 
 import java.util.List;
 
@@ -17,13 +19,13 @@ import java.util.List;
  * Created by Miguel Aicrag on 8/12/2017.
  */
 
-public class Retrivelist extends ArrayAdapter implements View.OnClickListener
+public class registerlist extends ArrayAdapter implements View.OnClickListener
 {
     private Activity context;
     private List<EstablishmentRegister> artistList;
     TextView txtemail;
 
-    public Retrivelist(Activity context, List<EstablishmentRegister> artistList)
+    public registerlist(Activity context, List<EstablishmentRegister> artistList)
     {
         super(context, R.layout.list_layout,artistList);
         this.context = context;
@@ -46,16 +48,10 @@ public class Retrivelist extends ArrayAdapter implements View.OnClickListener
             @Override
             public void onClick(View v)
             {
-                Intent intent=new Intent(getContext(), AddReqActivity.class);
-                intent.putExtra("name",txtemail.getText().toString().trim());
-                intent.putExtra("id",register.establishment_id);
-                intent.putExtra("type",register.establishment_type);
-                intent.putExtra("owner",register.establishment_owner);
-                intent.putExtra("lat",register.establishment_lat);
-                intent.putExtra("add",register.establishment_add);
-                intent.putExtra("postal",register.establishment_postal);
-                intent.putExtra("email",register.establishment_email);
-                intent.putExtra("phone",register.establishment_phone);
+                Toast.makeText(getContext(),register.getEstablishment_lat(), Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(getContext(), MapsActivity.class);
+                intent.putExtra("name",register.getEstablishment_Name());
+                intent.putExtra("lat",register.getEstablishment_lat());
 
                 getContext().startActivity(intent);
             }

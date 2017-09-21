@@ -1,6 +1,7 @@
 <RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,18 +33,6 @@
         android:background="@drawable/search"
         android:onClick="onClick" />
 
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/B_hopistals"
-        tools:context="com.android.visitour.Map.MapsActivity" />
 
     <Button
         android:id="@+id/B_hopistals"
@@ -81,6 +70,27 @@
         android:layout_toEndOf="@+id/B_restaurants"
         android:onClick="onClick"
         android:text="To" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/B_hopistals"
+        tools:context="com.android.visitour.Map.MapsActivity" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/registerlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="44dp"
+        android:clickable="true"
+        map:backgroundTint="@color/bckg"
+        map:fabSize="mini"
+        map:srcCompat="@color/bckg" />
 
 
 </RelativeLayout>

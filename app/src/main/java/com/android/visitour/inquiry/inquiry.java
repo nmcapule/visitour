@@ -24,7 +24,7 @@ public class inquiry extends AppCompatActivity implements View.OnClickListener {
 
 
         Bundle bundle = getIntent().getExtras();
-        String as = bundle.getString("set");
+        final String as = bundle.getString("set");
         String addr = bundle.getString("add");
         String lati = bundle.getString("lat");
 
@@ -44,7 +44,7 @@ public class inquiry extends AppCompatActivity implements View.OnClickListener {
 
 
                 Intent intent=new Intent(getApplication(), MapsActivity.class);
-                intent.putExtra("set","");
+                intent.putExtra("set",as);
                 startActivity(intent);
 
             }
@@ -70,6 +70,7 @@ public class inquiry extends AppCompatActivity implements View.OnClickListener {
 
         Bundle bundle = getIntent().getExtras();
         String as = bundle.getString("set");
+//        String aw = bundle.getString("lati");
 
         Intent intent=new Intent(getApplication(), BasicInfo.class);
         intent.putExtra("set",as);

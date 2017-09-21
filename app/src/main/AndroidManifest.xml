@@ -65,6 +65,7 @@
 
 
         <activity android:name=".Function.AddReqActivity" />
+        <activity android:name=".Function.RegistEstablishment"></activity>
         <activity android:name=".Company.ViewImageActivity"></activity>
         <activity android:name=".Map.MapsActivity"></activity>
         <activity android:name=".Reservation.ReservationActivity"></activity>
