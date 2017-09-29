@@ -1,5 +1,6 @@
 package com.android.visitour.User_Info;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.visitour.CompanyFragment.CompanyMainActivity;
 import com.android.visitour.R;
 import com.android.visitour.data.StaticConfig;
 import com.android.visitour.model.Companydata;
@@ -50,7 +52,7 @@ public class Company extends Fragment implements View.OnClickListener {
 
                 FirebaseDatabase.getInstance().getReference().child("user/"+id).setValue(newUser);
 
-//                startActivity(new Intent(getActivity(), CompanyMainActivity.class));
+                startActivity(new Intent(getActivity(), CompanyMainActivity.class));
 
             }
         });

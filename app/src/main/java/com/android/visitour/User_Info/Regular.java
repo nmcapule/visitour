@@ -28,6 +28,7 @@ public class Regular extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+
         View view =  inflater.inflate(R.layout.fragment_regular, container, false);
 
         txtlastn = (EditText)view.findViewById(R.id.txtlastname);
@@ -35,8 +36,8 @@ public class Regular extends Fragment implements View.OnClickListener{
         txtmiddlen = (EditText)view.findViewById(R.id.txtmiddlename);
 
         submit =(Button)view.findViewById(R.id.btnsubmit);
-        final String id=this.getArguments().getString("UID").toString();
-        final String email=this.getArguments().getString("EMAIL").toString();
+        final String id= this.getArguments().getString("UID");
+        final String email= this.getArguments().getString("EMAIL");
 //        Toast.makeText(getActivity(),id,Toast.LENGTH_LONG).show();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

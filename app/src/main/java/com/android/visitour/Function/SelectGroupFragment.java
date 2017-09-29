@@ -18,7 +18,6 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.visitour.BasicInfo;
 import com.android.visitour.R;
@@ -38,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import static com.android.visitour.Function.SelectGroupFragment.addname;
+import static com.android.visitour.Function.SelectGroupFragment.id;
 
 
 public class SelectGroupFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
@@ -52,7 +52,7 @@ public class SelectGroupFragment extends Fragment implements SwipeRefreshLayout.
     public static final int REQUEST_EDIT_GROUP = 0;
     public static final String CONTEXT_MENU_KEY_INTENT_DATA_POS = "pos";
     Button select;
-    static String addname;
+    static String addname,id;
 
 
 
@@ -74,6 +74,7 @@ public class SelectGroupFragment extends Fragment implements SwipeRefreshLayout.
 
         Bundle bundle = getActivity().getIntent().getExtras();
         addname = bundle.getString("set");
+        id = bundle.getString("id");
         select = (Button) layout.findViewById(R.id.btnselect);
         listGroup = GroupDB.getInstance(getContext()).getListGroups();
         recyclerListGroups = (RecyclerView) layout.findViewById(R.id.recycleListGroup);
@@ -254,9 +255,8 @@ class ListGroupsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 intent.putExtra("set", addname);
                 intent.putExtra("grouname", groupName);
-                intent.putExtra("groupid", ids);
-
-                Toast.makeText(context, ids,Toast.LENGTH_LONG).show();
+                intent.putExtra("groupid", id);
+                intent.putExtra("id", id);
                 context.startActivity(intent);
 
             }

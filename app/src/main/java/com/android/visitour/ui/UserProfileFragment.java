@@ -65,7 +65,7 @@ public class UserProfileFragment extends Fragment {
     private RecyclerView recyclerView;
     private UserInfoAdapter infoAdapter;
 
-    private static final String USERNAME_LABEL = "Username";
+    private static final String USERNAME_LABEL = "Name";
     private static final String EMAIL_LABEL = "Email";
     private static final String SIGNOUT_LABEL = "Sign out";
     private static final String RESETPASS_LABEL = "Change Password";
@@ -315,7 +315,7 @@ public class UserProfileFragment extends Fragment {
                         input.setText(myAccount.name);
 
                         new AlertDialog.Builder(context)
-                                .setTitle("Edit username")
+                                .setTitle("Edit Name")
                                 .setView(vewInflater)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     @Override

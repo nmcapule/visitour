@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.visitour.R;
+import com.android.visitour.ShowEvent.show_Event;
 import com.android.visitour.data.SharedPreferenceHelper;
 import com.android.visitour.data.StaticConfig;
 import com.android.visitour.model.Consersation;
@@ -55,6 +56,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public Bitmap bitmapAvataUser;
     private Button close;
     private Toolbar bar;
+    private TextView eventname;
    static String uname ="a";
 
 
@@ -62,75 +64,44 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        Intent intentData = getIntent();
-        idFriend = intentData.getCharSequenceArrayListExtra(StaticConfig.INTENT_KEY_CHAT_ID);
-        roomId = intentData.getStringExtra(StaticConfig.INTENT_KEY_CHAT_ROOM_ID);
-        String nameFriend = intentData.getStringExtra(StaticConfig.INTENT_KEY_CHAT_FRIEND);
-        uname = nameFriend;
+        try {
 
-        close = (Button)findViewById(R.id.btnshow);
-        bar = (Toolbar)findViewById(R.id.toolbar2);
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
+            Intent intentData = getIntent();
+            idFriend = intentData.getCharSequenceArrayListExtra(StaticConfig.INTENT_KEY_CHAT_ID);
+            roomId = intentData.getStringExtra(StaticConfig.INTENT_KEY_CHAT_ROOM_ID);
+            String nameFriend = intentData.getStringExtra(StaticConfig.INTENT_KEY_CHAT_FRIEND);
+            uname = nameFriend;
+            eventname = (TextView) findViewById(R.id.txtname);
+            close = (Button) findViewById(R.id.btnshow);
+            bar = (Toolbar) findViewById(R.id.toolbar2);
+//
+//        Toast.makeText(getApplication(),uname,Toast.LENGTH_LONG).show();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("group_event");
 
-                bar.setVisibility(v.GONE);
-            }
-        });
-
-        consersation = new Consersation();
-        btnSend = (ImageButton) findViewById(R.id.btnSend);
-        btnSend.setOnClickListener(this);
-
-        String base64AvataUser = SharedPreferenceHelper.getInstance(this).getUserInfo().avata;
-        if (!base64AvataUser.equals(StaticConfig.STR_DEFAULT_BASE64)) {
-            byte[] decodedString = Base64.decode(base64AvataUser, Base64.DEFAULT);
-            bitmapAvataUser = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        } else {
-            bitmapAvataUser = null;
-        }
-
-        editWriteMessage = (EditText) findViewById(R.id.editWriteMessage);
-        if (idFriend != null && nameFriend != null) {
-            getSupportActionBar().setTitle(nameFriend);
-            Toast.makeText(this,nameFriend,Toast.LENGTH_LONG).show();
-            linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            linearLayoutManager.setReverseLayout(false);
-            linearLayoutManager.setStackFromEnd(true);
-            recyclerChat = (RecyclerView) findViewById(R.id.recyclerChat);
-            recyclerChat.setLayoutManager(linearLayoutManager);
-            adapter = new ListMessageAdapter(this, consersation, bitmapAvataFriend, bitmapAvataUser);
-            FirebaseDatabase.getInstance().getReference().child("message/" + roomId).addChildEventListener(new ChildEventListener() {
+            databaseReference.child(uname).child("eventname").addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    if (dataSnapshot.getValue() != null) {
-                        HashMap mapMessage = (HashMap) dataSnapshot.getValue();
-                        Message newMessage = new Message();
-                        newMessage.idSender = (String) mapMessage.get("idSender");
-                        newMessage.idReceiver = (String) mapMessage.get("idReceiver");
-                        newMessage.text = (String) mapMessage.get("text");
-                        newMessage.timestamp = (long) mapMessage.get("timestamp");
-                        consersation.getListMessageData().add(newMessage);
-                        adapter.notifyDataSetChanged();
-                        linearLayoutManager.scrollToPosition(consersation.getListMessageData().size() - 1);
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    final String value = dataSnapshot.getValue(String.class);
+
+                    eventname.setText(value);
+
+                    if (eventname.getText().equals("")) {
+                        bar.setVisibility(View.GONE);
                     }
-                }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    eventname.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                }
+                            Intent intent = new Intent(getApplication(), show_Event.class);
+                            intent.putExtra("eventname", value);
+                            intent.putExtra("uid", uname);
+//////////////////////////////////////TO FOLLOW NEEDED
+                            startActivity(intent);
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                        }
+                    });
                 }
 
                 @Override
@@ -138,27 +109,120 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
-            recyclerChat.setAdapter(adapter);
+
+            close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    bar.setVisibility(v.GONE);
+                }
+            });
+
+
+            consersation = new Consersation();
+            btnSend = (ImageButton) findViewById(R.id.btnSend);
+            btnSend.setOnClickListener(this);
+
+            String base64AvataUser = SharedPreferenceHelper.getInstance(this).getUserInfo().avata;
+            if (!base64AvataUser.equals(StaticConfig.STR_DEFAULT_BASE64)) {
+                byte[] decodedString = Base64.decode(base64AvataUser, Base64.DEFAULT);
+                bitmapAvataUser = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            } else {
+                bitmapAvataUser = null;
+            }
+
+            editWriteMessage = (EditText) findViewById(R.id.editWriteMessage);
+            if (idFriend != null && nameFriend != null) {
+                getSupportActionBar().setTitle(nameFriend);
+                Toast.makeText(this, nameFriend, Toast.LENGTH_LONG).show();
+                linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+                linearLayoutManager.setReverseLayout(false);
+                linearLayoutManager.setStackFromEnd(true);
+                recyclerChat = (RecyclerView) findViewById(R.id.recyclerChat);
+                recyclerChat.setLayoutManager(linearLayoutManager);
+                adapter = new ListMessageAdapter(this, consersation, bitmapAvataFriend, bitmapAvataUser);
+                FirebaseDatabase.getInstance().getReference().child("message/" + roomId).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if (dataSnapshot.getValue() != null) {
+                            HashMap mapMessage = (HashMap) dataSnapshot.getValue();
+                            Message newMessage = new Message();
+                            newMessage.idSender = (String) mapMessage.get("idSender");
+                            newMessage.idReceiver = (String) mapMessage.get("idReceiver");
+                            newMessage.text = (String) mapMessage.get("text");
+                            newMessage.timestamp = (long) mapMessage.get("timestamp");
+                            consersation.getListMessageData().add(newMessage);
+                            adapter.notifyDataSetChanged();
+                            linearLayoutManager.scrollToPosition(consersation.getListMessageData().size() - 1);
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                recyclerChat.setAdapter(adapter);
+            }
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            Intent result = new Intent();
-            result.putExtra("idFriend", idFriend.get(0));
-            setResult(RESULT_OK, result);
-            this.finish();
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        try {
+
+
+            if (item.getItemId() == android.R.id.home) {
+                Intent result = new Intent();
+                result.putExtra("idFriend", idFriend.get(0));
+                setResult(RESULT_OK, result);
+                this.finish();
+            }
         }
+        catch (Exception ex)
+        {
+
+        }
+
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        Intent result = new Intent();
-        result.putExtra("idFriend", idFriend.get(0));
-        setResult(RESULT_OK, result);
-        this.finish();
+
+        try
+        {
+            Intent result = new Intent();
+            result.putExtra("idFriend", idFriend.get(0));
+            setResult(RESULT_OK, result);
+            this.finish();
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
     }
 
     @Override
@@ -204,8 +268,6 @@ class ListMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (viewType == ChatActivity.VIEW_TYPE_FRIEND_MESSAGE)
         {
             View view = LayoutInflater.from(context).inflate(R.layout.rc_item_message_friend, parent, false);
-            name = (TextView)view.findViewById(R.id.TXTNAME);
-            name.setText(ln);
             return new ItemMessageFriendHolder(view);
         } else if (viewType == ChatActivity.VIEW_TYPE_USER_MESSAGE) {
             View view = LayoutInflater.from(context).inflate(R.layout.rc_item_message_user, parent, false);

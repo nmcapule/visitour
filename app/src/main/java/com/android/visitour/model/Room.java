@@ -5,17 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
 public class Room {
     public ArrayList<String> member;
     public Map<String, String> groupInfo;
     public String id;
 
-    public Room(String id) {
+    public Room(String id)
+    {
         this.id = id;
     }
 
-    public Room(){
+    public Room()
+    {
         member = new ArrayList<>();
         groupInfo = new HashMap<String, String>();
     }

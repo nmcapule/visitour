@@ -114,11 +114,11 @@ public class RegisterFormActivity extends AppCompatActivity implements View.OnCl
 //
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(Database_path);
 
-            EstablishmentRegister establishmentRegister = new EstablishmentRegister(type,esname,esowner,add,eslat,postal,user.getEmail(),phone,uploadid);
+            EstablishmentRegister establishmentRegister = new EstablishmentRegister(type,esname,esowner,add,eslat,postal,user.getEmail(),phone,uploadid,"website","");
             databaseReference.child(uploaduid).child(uploadid).setValue(establishmentRegister);
             databaseReference.child("admin").child(uploadid).setValue(establishmentRegister);
 
-            Toast.makeText(this,"Pasok", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Successfully registered", Toast.LENGTH_LONG).show();
 
 
 

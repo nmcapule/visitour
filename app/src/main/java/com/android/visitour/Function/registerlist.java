@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.visitour.Map.MapsActivity;
 import com.android.visitour.R;
@@ -48,10 +47,15 @@ public class registerlist extends ArrayAdapter implements View.OnClickListener
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getContext(),register.getEstablishment_lat(), Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(getContext(), MapsActivity.class);
                 intent.putExtra("name",register.getEstablishment_Name());
                 intent.putExtra("lat",register.getEstablishment_lat());
+                intent.putExtra("id",register.getEstablishment_id());
+                intent.putExtra("con",register.getEstablishment_phone());
+                intent.putExtra("add",register.getEstablishment_add());
+                intent.putExtra("web",register.getEstablishment_website());
+                intent.putExtra("estreserv",register.getEstablishment_reserv());
+
 
                 getContext().startActivity(intent);
             }

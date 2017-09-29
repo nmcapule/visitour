@@ -34,30 +34,50 @@ import com.google.android.gms.maps.model.Marker;
  * Firebase: bhrivchat@gmail.com
  * Mk 123456a@
  */
-public class CalendarFragment extends Fragment  {
+public class CalendarFragment extends Fragment {
 
 
+    public static final int REQUEST_LOCATION_CODE = 99;
+    private static final int PLACE_PICKER_FLAG = 1;
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(14.537752, 121.001381), new LatLng(14.599512, 120.984222));
+    protected GoogleApiClient mGoogleApiClient;
+    int PROXIMITY_RADIUS = 10000;
+    double latitude, longitude;
+    Button search;
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
     private Location lastlocation;
     private Marker currentLocationmMarker;
-    public static final int REQUEST_LOCATION_CODE = 99;
-    int PROXIMITY_RADIUS = 10000;
-    double latitude,longitude;
-    Button search;
-
     private AutoCompleteTextView myLocation;
-
-
     private PlacePicker.IntentBuilder builder;
-
-    private static final int PLACE_PICKER_FLAG = 1;
     private FragmentActivity myContext;
     private PlacesAutoCompleteAdapter mPlacesAdapter;
-    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
-            new LatLng(14.537752, 121.001381), new LatLng(14.599512, 120.984222));
-    protected GoogleApiClient mGoogleApiClient;
+    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
+            = new ResultCallback<PlaceBuffer>() {
+        @Override
+        public void onResult(PlaceBuffer places) {
+            if (!places.getStatus().isSuccess()) {
+                Log.e("place", "Place query did not complete. Error: " +
+                        places.getStatus().toString());
+                return;
+            }
+            // Selecting the first object buffer.
+            final Place place = places.get(0);
+        }
+    };
+    private AdapterView.OnItemClickListener mAutocompleteClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            final PlacesAutoCompleteAdapter.PlaceAutocomplete item = mPlacesAdapter.getItem(position);
+            final String placeId = String.valueOf(item.placeId);
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
+                    .getPlaceById(mGoogleApiClient, placeId);
+            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+        }
+    };
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -92,8 +112,8 @@ public class CalendarFragment extends Fragment  {
                 .addApi(Places.GEO_DATA_API)
                 .build();
         builder = new PlacePicker.IntentBuilder();
-        myLocation = (AutoCompleteTextView)view.findViewById(R.id.myLocation);
-        search = (Button)view.findViewById(R.id.search);
+        myLocation = (AutoCompleteTextView) view.findViewById(R.id.myLocation);
+        search = (Button) view.findViewById(R.id.search);
         mPlacesAdapter = new PlacesAutoCompleteAdapter(getActivity(), android.R.layout.simple_list_item_1,
                 mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
         myLocation.setOnItemClickListener(mAutocompleteClickListener);
@@ -101,15 +121,28 @@ public class CalendarFragment extends Fragment  {
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
 
+                String search = myLocation.getText().toString();
+                if (search.equals(""))
+                {
+                    Intent intent = new Intent(getContext(), MapsActivity.class);
+                    intent.putExtra("set", "  ");
+                    intent.putExtra("id", "1");
+                    myLocation.setText("");
+                    getContext().startActivity(intent);
+                }
+                else
+                    {
 
+                    Intent intent = new Intent(getContext(), MapsActivity.class);
+                        intent.putExtra("id", "1");
+                    intent.putExtra("set", myLocation.getText().toString().trim());
+                        myLocation.setText("");
+                    getContext().startActivity(intent);
 
-                Intent intent=new Intent(getContext(), MapsActivity.class);
-                intent.putExtra("set",myLocation.getText().toString().trim());
-                getContext().startActivity(intent);
-
+                }
+//
 
             }
         });
@@ -117,34 +150,6 @@ public class CalendarFragment extends Fragment  {
 
         return view;
     }
-
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final PlacesAutoCompleteAdapter.PlaceAutocomplete item = mPlacesAdapter.getItem(position);
-            final String placeId = String.valueOf(item.placeId);
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-        }
-    };
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(PlaceBuffer places) {
-            if (!places.getStatus().isSuccess()) {
-                Log.e("place", "Place query did not complete. Error: " +
-                        places.getStatus().toString());
-                return;
-            }
-            // Selecting the first object buffer.
-            final Place place = places.get(0);
-        }
-    };
-
-
-
 
 
 }

@@ -1,6 +1,8 @@
 package com.android.visitour.Company;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.visitour.R;
 import com.android.visitour.data.Approvedlist;
@@ -33,17 +36,21 @@ public class ApprovedActivity extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     List<EstablishmentRegister> userlist;
+    String x = "z";
+    String uid = "";
+    TextView check;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_pending, container, false);
+        check = (TextView)view.findViewById(R.id.check);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
 //        String id=this.getArguments().getString("UID").toString();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Establishment_Registration").child( "admin" );
+        databaseReference = FirebaseDatabase.getInstance().getReference("registered");
         listView = (ListView)view.findViewById(R.id.listviewlayout);
         userlist = new ArrayList<>();
 
@@ -55,15 +62,37 @@ public class ApprovedActivity extends Fragment implements View.OnClickListener {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                userlist.clear();
-                for (DataSnapshot artistSnaphot : dataSnapshot.getChildren()) {
+                try {
+                    userlist.clear();
 
-                    EstablishmentRegister artist = artistSnaphot.getValue(EstablishmentRegister.class);
-                    userlist.add(artist);
+                    for (DataSnapshot artistSnaphot : dataSnapshot.getChildren()) {
+
+
+                        EstablishmentRegister artist = artistSnaphot.getValue(EstablishmentRegister.class);
+                        uid = artistSnaphot.getKey();
+//                    Toast.makeText(getContext(),artistSnaphot.getKey(),Toast.LENGTH_LONG).show();
+                        checking();
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("event", Context.MODE_PRIVATE);
+
+                        String starte = sharedPreferences.getString("chec", "");
+
+                        if (starte.equals("a")) {
+                            userlist.add(artist);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("chec", "a");
+                            editor.apply();
+
+                        }
+                    }
+
+                    Approvedlist adapter = new Approvedlist((Activity) ApprovedActivity.this.getContext(), userlist);
+                    listView.setAdapter(adapter);
+
                 }
-
-                Approvedlist adapter = new Approvedlist((Activity) ApprovedActivity.this.getContext(), userlist);
-                listView.setAdapter(adapter);
+                catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -72,6 +101,47 @@ public class ApprovedActivity extends Fragment implements View.OnClickListener {
 
             }
         });
+
+    }
+
+    public void checking()
+    {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("registered");
+
+        databaseReference.child(uid).child("establishment_email").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    final String value = dataSnapshot.getValue(String.class);
+//                Toast.makeText(getActivity(),value,Toast.LENGTH_LONG).show();
+                    if (value.equals(user.getEmail())) {
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("event", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("chec", "a");
+                        editor.apply();
+
+                    }
+
+//                Toast.makeText(getActivity(),user.getEmail(),Toast.LENGTH_LONG).show();
+                }
+                catch (NullPointerException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override

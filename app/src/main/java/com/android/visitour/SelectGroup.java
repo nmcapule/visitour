@@ -21,9 +21,11 @@ public class SelectGroup extends AppCompatActivity
         setContentView(R.layout.selectgroup);
         Bundle bundle = getIntent().getExtras();
         String as = bundle.getString("set");
+        String id1 = bundle.getString("id");
 
 
         bundle.putString("set",as);
+        bundle.putString("id",id1);
 
 
         SelectGroupFragment frag = new SelectGroupFragment();

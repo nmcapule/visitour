@@ -15,12 +15,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-        <style name="AppTheme.pop">
-            <item name="android:windowIsTranslucent">true</item>
+    <style name="AppTheme.pop">
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
 
-        </style>
+    </style>
 
     <style name="MyThemeNoActionbar" parent="AppTheme">
         <item name="windowActionBar">false</item>

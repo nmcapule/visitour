@@ -19,9 +19,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SlidingDrawer;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.visitour.Function.RegistEstablishment;
+import com.android.visitour.Function.EstablishmentRegister;
 import com.android.visitour.R;
 import com.android.visitour.data.PlacesAutoCompleteAdapter;
 import com.android.visitour.inquiry.inquiry;
@@ -53,19 +56,22 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener,View.OnClickListener {
 
 
     public static final int REQUEST_LOCATION_CODE = 99;
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(14.537752, 121.001381), new LatLng(14.599512, 120.984222));
     protected GoogleApiClient mGoogleApiClient;
-    int PROXIMITY_RADIUS = 5000;
+    int PROXIMITY_RADIUS = 2000;
     double latitude, longitude;
     AutoCompleteTextView searchbar;
     Button ser;
     DatabaseReference reference;
 //    ListView lista;
+    private static ImageView slideButton;
+    private static TextView textView;
+    private static SlidingDrawer slidingDrawer;
     private GoogleMap mMap;
     private GoogleApiClient client;
     private LocationRequest locationRequest;
@@ -104,6 +110,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
+        slideButton = (ImageView) findViewById(R.id.slideButton);
+        slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
 
@@ -130,15 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         searchbar.setAdapter(mPlacesAdapter);
         reference = FirebaseDatabase.getInstance().getReference("sample");
 
-        listreg = (FloatingActionButton)findViewById(R.id.registerlist);
-        listreg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startActivity(new Intent(MapsActivity.this, RegistEstablishment.class));
 //
-            }
-        });
 
 //
 
@@ -179,6 +182,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         String location = searchbar.getText().toString();
         List<Address> addressList;
+        Bundle bundle = getIntent().getExtras();
+        String name = bundle.getString("name");
+        final String lat = bundle.getString("lat");
+        final String id = bundle.getString("id");
+        final String con = bundle.getString("con");
+        final String add = bundle.getString("add");
+        final String estweb = bundle.getString("web");
+        final String estname = bundle.getString("name");
+        final String estreserv = bundle.getString("estreserv");
+
 
 
         if (!location.equals("")) {
@@ -190,6 +203,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (addressList != null) {
                     for (int i = 0; i < addressList.size(); i++) {
+
                         LatLng latLng = new LatLng(addressList.get(i).getLatitude(), addressList.get(i).getLongitude());
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(latLng);
@@ -209,25 +223,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                 intent.putExtra("set", part1);
                                 intent.putExtra("lat", marker.getPosition().toString());
-//                                intent.putExtra("add",part2);
-                                Toast.makeText(getApplication(), marker.getPosition().toString(), Toast.LENGTH_LONG).show();
+                                intent.putExtra("id",id);
+                                intent.putExtra("con",con);
+                                intent.putExtra("add",add);
+                                intent.putExtra("web",estweb);
+                                intent.putExtra("estreserv","No");
+
+
+
+//
                                 startActivity(intent);
                                 return false;
                             }
                         });
                     }
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         } else
             {
 
-
-
-            Bundle bundle = getIntent().getExtras();
-            String name = bundle.getString("name");
-            String lat = bundle.getString("lat");
 
                 if (lat.equals("1,0"))
                 {
@@ -246,32 +263,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(PH));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-                }
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
 
+                            Intent intent = new Intent(getApplication(), inquiry.class);
+                            String[] parts = marker.getTitle().split("(:)");
 
-//
-        }
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-
-                Intent intent = new Intent(getApplication(), inquiry.class);
-                String[] parts = marker.getTitle().split("(:)");
-
-                String part1 = parts[0];
+                            String part1 = parts[0];
 //                String part2 = parts[1];
 
-                intent.putExtra("set", part1);
+                            intent.putExtra("set", part1);
 //                intent.putExtra("add",part2);
-                intent.putExtra("lat", marker.getPosition().toString());
-                Toast.makeText(getApplication(), marker.getPosition().toString(), Toast.LENGTH_LONG).show();
-                startActivity(intent);
+                            intent.putExtra("lat",lat);
+                            intent.putExtra("id",id);
+                            intent.putExtra("con",con);
+                            intent.putExtra("add",add);
+                            intent.putExtra("web",estweb);
+                            intent.putExtra("estreserv","No");
+//                            Toast.makeText(getApplication(), lat, Toast.LENGTH_LONG).show();
+                            startActivity(intent);
+                            return false;
+                        }
+                    });
 
-                return false;
-            }
-        });
+                }
 
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+
+                        Intent intent = new Intent(getApplication(), inquiry.class);
+                        String[] parts = marker.getTitle().split("(:)");
+
+                        String part1 = parts[0];
+//                String part2 = parts[1];
+
+                        intent.putExtra("set", part1);
+//                intent.putExtra("add",part2);
+                        intent.putExtra("lat", marker.getPosition().toString());
+                        intent.putExtra("id",id);
+                        intent.putExtra("con",con);
+                        intent.putExtra("add",add);
+                        intent.putExtra("web",estweb);
+                        intent.putExtra("estreserv","No");
+                        startActivity(intent);
+
+                        return false;
+                    }
+                });
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             bulidGoogleApiClient();
             mMap.setMyLocationEnabled(true);
@@ -345,39 +386,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 break;
             case R.id.B_hopistals:
+
                 mMap.clear();
-                String hospital = "hospital";
-                String url = getUrl(latitude, longitude, hospital);
+                String restaurant = "restaurant";
+                String url = getUrl(latitude, longitude, restaurant);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(MapsActivity.this, "Showing Nearby Hospitals", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Showing Nearby Restaurans", Toast.LENGTH_SHORT).show();
                 break;
 
 
             case R.id.B_schools:
                 mMap.clear();
-                String school = "school";
-                url = getUrl(latitude, longitude, school);
+                String resort = "resort";
+                url = getUrl(latitude, longitude, resort);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(MapsActivity.this, "Showing Nearby Schools", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Showing Nearby Resorts", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.B_restaurants:
                 mMap.clear();
-                String resturant = "restuarant";
-                url = getUrl(latitude, longitude, resturant);
+                String cafe = "cafe";
+                url = getUrl(latitude, longitude, cafe);
                 dataTransfer[0] = mMap;
                 dataTransfer[1] = url;
 
                 getNearbyPlacesData.execute(dataTransfer);
-                Toast.makeText(MapsActivity.this, "Showing Nearby Restaurants", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Showing Nearby Cafe", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.B_to:
+                mMap.clear();
+                String bar = "hotel";
+                url = getUrl(latitude, longitude, bar);
+                dataTransfer[0] = mMap;
+                dataTransfer[1] = url;
+
+                getNearbyPlacesData.execute(dataTransfer);
+                Toast.makeText(MapsActivity.this, "Showing Nearby Bar", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.register:
+                startActivity(new Intent(getApplicationContext(), EstablishmentRegister.class));
+                break;
         }
+
     }
 
 

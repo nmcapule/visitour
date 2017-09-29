@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.visitour.Company.ViewImageActivity;
 import com.android.visitour.R;
+import com.android.visitour.Update_company.Update_est;
 
 import java.util.List;
 
@@ -53,8 +53,22 @@ public class Approvedlist extends ArrayAdapter implements View.OnClickListener
             @Override
             public void onClick(View view)
             {
-                Intent intent= new Intent(getContext(), ViewImageActivity.class);
-                intent.putExtra("id",register.establishment_id);
+                Intent intent= new Intent(getContext(), Update_est.class);
+                intent.putExtra("estname",register.establishment_Name);
+                intent.putExtra("estadd",register.establishment_add);
+                intent.putExtra("estcontact",register.establishment_phone);
+                intent.putExtra("estlat",register.establishment_lat);
+                intent.putExtra("estemail",register.establishment_email);
+                intent.putExtra("estowner",register.establishment_owner);
+                intent.putExtra("estpostal",register.establishment_postal);
+                intent.putExtra("esttype",register.establishment_type);
+                intent.putExtra("estid",register.establishment_id);
+                intent.putExtra("estweb",register.establishment_website);
+                intent.putExtra("estreserv",register.establishment_reserv);
+
+
+
+
                 getContext().startActivity(intent);
             }
         } );

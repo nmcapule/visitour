@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.android.visitour.Map.MapsActivity;
@@ -39,8 +41,13 @@ public class MainActivity extends AppCompatActivity {
     public static String STR_GROUP_FRAGMENT = "GROUP";
     public static String STR_INFO_FRAGMENT = "INFO";
     public static String STR_CAL_FRAGMENT = "SEARCH";
+    public static String STR_CAL_Events = "Event";
 
-    private FloatingActionButton floatButton;
+    private FloatingActionButton floatButton,fab1,fab2;
+    Animation fabopen,fabclose,rotateforward,rotatebackward;
+    boolean isOpen= false;
+
+
     private ViewPagerAdapter adapter;
 
     private FirebaseAuth mAuth;
@@ -51,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+
+        fabopen = AnimationUtils.loadAnimation(this,R.anim.fab_open);
+        fabclose = AnimationUtils.loadAnimation(this,R.anim.fab_close);
+
+        rotateforward = AnimationUtils.loadAnimation(this,R.anim.rotate_forward);
+        rotatebackward = AnimationUtils.loadAnimation(this,R.anim.rotate_backward);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
@@ -105,9 +121,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     * Khoi tao 3 tab
-     */
     private void initTab() {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.colorIndivateTab));
@@ -121,25 +134,32 @@ public class MainActivity extends AppCompatActivity {
         int[] tabIcons = {
                 R.drawable.ic_tab_person,
                 R.drawable.ic_tab_group,
-                R.drawable.ic_tab_infor,
-                R.drawable.ic_search
+                R.drawable.ic_search,
+//                R.drawable.ic_event_black_24dp,
+                R.drawable.ic_tab_infor
+
+
         };
 
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
         tabLayout.getTabAt(2).setIcon(tabIcons[2]);
         tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+//        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new FriendsFragment(), STR_FRIEND_FRAGMENT);
         adapter.addFrag(new GroupFragment(), STR_GROUP_FRAGMENT);
-        adapter.addFrag(new UserProfileFragment(), STR_INFO_FRAGMENT);
         adapter.addFrag(new CalendarFragment(), STR_CAL_FRAGMENT);
+//        adapter.addFrag(new EventFragment(), STR_CAL_Events);
+        adapter.addFrag(new UserProfileFragment(), STR_INFO_FRAGMENT);
+
         floatButton.setOnClickListener(((FriendsFragment) adapter.getItem(0)).onClickFloatButton.getInstance(this));
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -153,10 +173,32 @@ public class MainActivity extends AppCompatActivity {
                     floatButton.setVisibility(View.VISIBLE);
                     floatButton.setOnClickListener(((FriendsFragment) adapter.getItem(position)).onClickFloatButton.getInstance(MainActivity.this));
                     floatButton.setImageResource(R.drawable.plus);
-                } else if (adapter.getItem(position) instanceof GroupFragment) {
+                } else if (adapter.getItem(position) instanceof GroupFragment)
+                {
                     floatButton.setVisibility(View.VISIBLE);
-                    floatButton.setOnClickListener(((GroupFragment) adapter.getItem(position)).onClickFloatButton.getInstance(MainActivity.this));
-                    floatButton.setImageResource(R.drawable.ic_float_add_group);
+                    floatButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            animatefab();
+                        }
+                    });
+                    fab1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent=new Intent(getApplication(), MapsActivity.class);
+                            intent.putExtra("set","");
+                            intent.putExtra("lat","1,0");
+                            intent.putExtra("id","1");
+                            startActivity(intent);
+                            fab1.startAnimation(fabclose);
+                            fab2.startAnimation(fabclose);
+                        }
+                    });
+                    fab2.setOnClickListener(((GroupFragment) adapter.getItem(position)).onClickFloatButton.getInstance(MainActivity.this));
+                    floatButton.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+
+
+
                 }
 //                else if (adapter.getItem(position) instanceof CalendarFragment)
 //                {
@@ -178,6 +220,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void animatefab()
+    {
+        if(isOpen)
+        {
+            floatButton.startAnimation(rotateforward);
+            fab1.startAnimation(fabclose);
+            fab2.startAnimation(fabclose);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isOpen = false;
+        }
+        else
+        {
+            floatButton.startAnimation(rotatebackward);
+            fab1.startAnimation(fabopen);
+            fab2.startAnimation(fabopen);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+
+            isOpen = true;
+
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -194,15 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.about) {
-            Toast.makeText(this, "Visitour 1.0", Toast.LENGTH_LONG).show();
-            return true;
-        }
-        else if (id == R.id.setevent)
-        {
-            Intent intent=new Intent(this, MapsActivity.class);
-            intent.putExtra("set","");
-            intent.putExtra("lat","1,0");
-            startActivity(intent);
+            startActivity(new Intent(this, AboutUsActivity.class));
             return true;
         }
 

@@ -36,6 +36,7 @@ public class Registered extends android.support.v4.app.Fragment implements View.
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class Registered extends android.support.v4.app.Fragment implements View.
     @Override
     public void onStart() {
         super.onStart();
+
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,6 +77,7 @@ public class Registered extends android.support.v4.app.Fragment implements View.
 
             }
         });
+
     }
 
     @Override

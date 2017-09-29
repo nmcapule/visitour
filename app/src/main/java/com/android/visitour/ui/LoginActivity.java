@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.visitour.CompanyFragment.CompanyMainActivity;
+import com.android.visitour.MainActivity;
 import com.android.visitour.R;
 import com.android.visitour.User_InfoActivity;
 import com.android.visitour.data.SharedPreferenceHelper;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.yarolegovich.lovelydialog.LovelyInfoDialog;
@@ -65,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.et_password);
         firstTimeAccess = true;
         initFirebase();
+
     }
 
 
@@ -78,21 +82,63 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
+
                     StaticConfig.UID = user.getUid();
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    if (firstTimeAccess) {
-                        startActivity(new Intent(LoginActivity.this, User_InfoActivity.class));
-                        LoginActivity.this.finish();
-                    }
-                } else {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("user");
+
+                    databaseReference.child(user.getUid()).child("usertype").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+                            if (value == null) {
+                                value = "";
+                            }
+
+                            if (value.equals("Regular")) {
+
+//                        Toast.makeText(getApplication(),value, Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                finish();
+                            } else if (value.equals("Company")) {
+                                startActivity(new Intent(getApplicationContext(), CompanyMainActivity.class));
+                                finish();
+                            }
+                            else
+                            {
+                                startActivity(new Intent(getApplicationContext(), User_InfoActivity.class));
+                                finish();
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
+
                 }
                 firstTimeAccess = false;
             }
         };
         waitingDialog = new LovelyProgressDialog(this).setCancelable(false);
+
     }
+    private void check()
+    {
+
+
+        if (mAuth.getCurrentUser() != null) {
+
+
+        }
+    }
+
+
+
 
     @Override
     protected void onStop() {
@@ -246,10 +292,12 @@ public class LoginActivity extends AppCompatActivity {
                                         .setCancelable(false)
                                         .setConfirmButtonText("Ok")
                                         .show();
-                            } else {
+                            } else
+
+                            {
+                                check();
                                 saveUserInfo();
-                                startActivity(new Intent(LoginActivity.this, User_InfoActivity.class));///////////////////////////////////-------------CHANGE USE
-                                LoginActivity.this.finish();
+
                             }
                         }
                     })
@@ -259,6 +307,42 @@ public class LoginActivity extends AppCompatActivity {
                             waitingDialog.dismiss();
                         }
                     });
+        }
+
+        public void check() {
+
+            if (mAuth.getCurrentUser() != null) {
+
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("user");
+
+                databaseReference.child(user.getUid()).child("usertype").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String value = dataSnapshot.getValue(String.class);
+
+                        if (value.equals("Regular")) {
+
+//                        Toast.makeText(getApplication(),value, Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        } else if (value.equals("Company")) {
+                            startActivity(new Intent(getApplicationContext(), CompanyMainActivity.class));
+                            finish();
+                        }
+                        else
+                        {
+                            startActivity(new Intent(LoginActivity.this, User_InfoActivity.class));///////////////////////////////////-------------CHANGE USE
+                            LoginActivity.this.finish();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
         }
 
 

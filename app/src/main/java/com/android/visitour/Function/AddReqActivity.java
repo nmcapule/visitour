@@ -1,5 +1,6 @@
 package com.android.visitour.Function;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -152,52 +153,60 @@ public class AddReqActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
 
     }
-
+    @SuppressWarnings("VisibleForTests")
     public void btnupload(View view) {
-        if (imgUri != null)
+        try {
+            if (imgUri != null) {
+
+                Bundle bundle = getIntent().getExtras();
+                final String uID = bundle.getString("id");
+                txximg = (EditText) findViewById(R.id.txtimgname);
+                final ProgressDialog dialog = new ProgressDialog(this);
+                dialog.setTitle("Uploading Image");
+                dialog.show();
+
+                databaseReference = FirebaseDatabase.getInstance().getReference(Image_path);
+                StorageReference ref = mStorageRef.child(Storage_path + System.currentTimeMillis() + "." + GetimgageExt(imgUri));
+
+                ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        dialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Files Uploaded", Toast.LENGTH_LONG).show();
+                        Image image = new Image(txximg.getText().toString(), taskSnapshot.getDownloadUrl().toString());
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                        String uploaduid = user.getUid();
+                        String uploadid = databaseReference.push().getKey();
+
+                        databaseReference.child(uploaduid).child(uID).child(uploadid).setValue(image);
+                        databaseReference.child("admib").child(uID).child(uploadid).setValue(image);
+
+                        txximg.setText("");
+                        imageView.setImageBitmap(null);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed Upload", Toast.LENGTH_LONG).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                        dialog.setMessage("Uploaded "+(int)progress+"%");
+                    }
+                });
+            } else {
+                Toast.makeText(getApplicationContext(), " Please select files  ", Toast.LENGTH_LONG).show();
+            }
+
+        }
+        catch (NullPointerException ex)
         {
-
-            Bundle bundle = getIntent().getExtras();
-            final String uID = bundle.getString("id");
-            txximg = (EditText)findViewById(R.id.txtimgname);
-
-            databaseReference = FirebaseDatabase.getInstance().getReference(Image_path);
-            StorageReference ref = mStorageRef.child(Storage_path + System.currentTimeMillis() + "." + GetimgageExt(imgUri));
-
-            ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(getApplicationContext(), "Files Uploaded", Toast.LENGTH_LONG).show();
-                    Image image = new Image(txximg.getText().toString(), taskSnapshot.getDownloadUrl().toString());
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                    String uploaduid = user.getUid();
-                    String uploadid = databaseReference.push().getKey();
-
-                    databaseReference.child(uploaduid).child(uID).child(uploadid).setValue(image);
-                    databaseReference.child("admib").child(uID).child(uploadid).setValue(image);
-
-                    txximg.setText("");
-                    imageView.setImageBitmap(null);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getApplicationContext(), "Failed Upload", Toast.LENGTH_LONG).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                }
-            });
+            ex.printStackTrace();
         }
-        else
-            {
-            Toast.makeText(getApplicationContext(), " Please select files  ", Toast.LENGTH_LONG).show();
-        }
-
     }
 }
 

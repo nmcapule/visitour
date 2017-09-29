@@ -17,6 +17,8 @@ public class EstablishmentRegister
     String establishment_email;
     String establishment_phone;
     String establishment_id;
+    String establishment_website;
+    String establishment_reserv;
 
 
     public  EstablishmentRegister()
@@ -24,7 +26,7 @@ public class EstablishmentRegister
 
     }
 
-    public EstablishmentRegister(String establishment_type, String establishment_Name, String establishment_owner, String establishment_add, String establishment_lat, String establishment_postal, String establishment_email, String establishment_phone, String establishment_id) {
+    public EstablishmentRegister(String establishment_type, String establishment_Name, String establishment_owner, String establishment_add, String establishment_lat, String establishment_postal, String establishment_email, String establishment_phone, String establishment_id, String establishment_website, String establishment_reserv) {
         this.establishment_type = establishment_type;
         this.establishment_Name = establishment_Name;
         this.establishment_owner = establishment_owner;
@@ -34,6 +36,24 @@ public class EstablishmentRegister
         this.establishment_email = establishment_email;
         this.establishment_phone = establishment_phone;
         this.establishment_id = establishment_id;
+        this.establishment_website = establishment_website;
+        this.establishment_reserv = establishment_reserv;
+    }
+
+    public String getEstablishment_website() {
+        return establishment_website;
+    }
+
+    public void setEstablishment_website(String establishment_website) {
+        this.establishment_website = establishment_website;
+    }
+
+    public String getEstablishment_reserv() {
+        return establishment_reserv;
+    }
+
+    public void setEstablishment_reserv(String establishment_reserv) {
+        this.establishment_reserv = establishment_reserv;
     }
 
     public String getEstablishment_type() {

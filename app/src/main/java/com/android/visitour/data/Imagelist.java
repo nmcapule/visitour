@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.visitour.R;
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ public class Imagelist extends ArrayAdapter implements View.OnClickListener
 
         txtemail.setText(register.getFilesname());
         Glide.with(context).load(register.getUri()).into(img);
+        Toast.makeText(getContext(),register.getUri(),Toast.LENGTH_LONG).show();
 
 
         return listViewItem;
